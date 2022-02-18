@@ -2,7 +2,7 @@ class Publication {
   title;
   author;
   year = new Date().getYear();
-  constructor(title, author, doi, year) {
+  constructor(title, author, year) {
     if (!title || !author || !year) {
       throw new Error(
         "I need an author, title, and year to create a publication"
@@ -109,7 +109,7 @@ class PublicationManager {
     );
   }
   addBook(title, author, year, ISBN, publisher) {
-    this.publications.push(new Book(title, author, doi, year, publisher));
+    this.publications.push(new Book(title, author, ISBN, year, publisher));
   }
   addWebpage(title, URL, date) {
     this.publications.push(new Webpage(title, URL, date));
