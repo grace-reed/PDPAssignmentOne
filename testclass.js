@@ -1,42 +1,40 @@
 class Publication {
   title;
   author;
-  doi;
   year = new Date().getYear();
   constructor(title, author, doi, year) {
-    if (!title || !author || !doi || !year) {
+    if (!title || !author || !year) {
       throw new Error(
-        "I need an author, title, doi, and year to create a publication"
+        "I need an author, title, and year to create a publication"
       );
     }
     this.title = title;
     this.author = author;
-    this.doi = doi;
     this.year = year !== undefined ? year : this.year;
   }
   isPublication() {
     return (
       this.title !== undefined &&
       this.author !== undefined &&
-      this.doi !== undefined &&
       this.year !== undefined
     );
   }
 }
 class Book extends Publication {
   publisher;
-  constructor(title, author, doi, year, publisher) {
+  constructor(title, author, year, ISBN, publisher) {
     if (!publisher) {
       throw new Error("I need a publisher to create a book");
     }
-    super(title, author, doi, year);
+    super(title, author, year);
     this.publisher = publisher;
+    this.ISBN = ISBN;
   }
   isBook() {
     return this.isPublication() && this.publisher !== undefined;
   }
   citeAPA() {
-    return `${this.author} (${this.year}). ${this.title}. ${this.publisher}. ${this.doi} `;
+    return `${this.author} (${this.year}). ${this.title}. ${this.publisher}. ${this.ISBN} `;
   }
   citeMLA() {
     return "${this.author}" + "${this.title}" + "${this.year}" + "${this.doi}";
@@ -45,13 +43,14 @@ class Book extends Publication {
 class Paper extends Publication {
   journal;
   volume;
-  constructor(title, author, doi, year, journal, volume) {
+  constructor(title, author, year, doi, journal, volume) {
     if (!journal || !volume) {
       throw new Error("I need a journal and volume to create a paper");
     }
-    super(title, author, doi, year);
+    super(title, author, year);
     this.journal = journal;
     this.volume = volume;
+    this.doi = doi;
   }
   isPaper() {
     if (
@@ -103,13 +102,13 @@ class Webpage extends Publication {
 }
 class PublicationManager {
   publications = [];
-  addPaper(title, author, doi, year, journal, volume) {
+  addPaper(title, author, year, doi, journal, volume) {
     console.log(journal, volume);
     this.publications.push(
       new Paper(title, author, doi, year, journal, volume)
     );
   }
-  addBook(title, author, doi, year, publisher) {
+  addBook(title, author, year, ISBN, publisher) {
     this.publications.push(new Book(title, author, doi, year, publisher));
   }
   addWebpage(title, URL, date) {
@@ -125,39 +124,47 @@ class PublicationManager {
 const pubManager = new PublicationManager();
 pubManager.addPaper("Navio", "John Guerra", "doi12345", 2018, "TVCG", 18);
 pubManager.addPaper("BTacile", "Mafe Zuniga", "doi12345", 2021, "CHI", 92);
-pubManager.addPaper("Wrong typo", "Jhn of course ", "doi12345", 2022, "IEEVIS", 16);
+pubManager.addPaper(
+  "Wrong typo",
+  "Jhn of course ",
+  "doi12345",
+  2022,
+  "IEEVIS",
+  16
+);
 pubManager.addBook("Scrum", "David", "ISBN787", 2005, "Elsevier");
-pubManager.addBook("Rationality", "Christopher","ISBN787", 2021, "Oveja Negra");
+pubManager.addBook(
+  "Rationality",
+  "Christopher",
+  "ISBN787",
+  2021,
+  "Oveja Negra"
+);
 pubManager.addWebpage("Wikipedia", "www.wikipedia.com", 2020);
 pubManager.printCitations("APA");
 
-
 titles = [];
 
-function getTitles(value){
-    titles.push(value.title);
-  }
+function getTitles(value) {
+  titles.push(value.title);
+}
 
 pubManager.publications.forEach(getTitles);
 
-function countLetters(titles){
-  text = value.join("").replace(/\s/g, '');
-  a = char_count(text, "a")/text.length;
+countLetters(titles);
+
+function countLetters(titles) {
+  text = value.join("").replace(/\s/g, "");
+  a = char_count(text, "a") / text.length;
   console.log("Percent of a's in all publication titles combined: " + a);
 }
 
-function char_count(str, letter) 
-{
- var letter_Count = 0;
- for (var position = 0; position < str.length; position++) 
- {
-    if (str.charAt(position) == letter) 
-      {
+function char_count(str, letter) {
+  var letter_Count = 0;
+  for (var position = 0; position < str.length; position++) {
+    if (str.charAt(position) == letter) {
       letter_Count += 1;
-      }
+    }
   }
   return letter_Count;
 }
-
-
-
