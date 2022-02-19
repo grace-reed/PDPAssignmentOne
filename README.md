@@ -1,6 +1,6 @@
 # AssignmentOne.js
 
-A Node project to cite publication that was made with npm and uses an interactive command line user interface.
+A Node project to cite publications that was made with npm and uses an interactive command line user interface.
 
 ## [Documentation](#documentation)
 To run this project:
