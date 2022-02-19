@@ -2,6 +2,7 @@
 
 A publication citation maker that uses an interactive command line user interface.
 
+## [Documentation](#documentation)
 How to run this project
 ```shell
 
