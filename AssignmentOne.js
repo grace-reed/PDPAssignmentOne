@@ -331,7 +331,7 @@ function AskUser(){
     },function(error){
       if (error)throw error;
     console.log("added pub");
-    interaction()
+    connectInputwithDB()
     })
   })
 
