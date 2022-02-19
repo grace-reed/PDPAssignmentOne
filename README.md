@@ -14,4 +14,4 @@ This package has classes for Book, Paper, Publication, and the Publication Manag
 
 <a name="contributing"></a>
 
-Initial classes for Publication and its children [@john-guerra] (https://github.com/john-guerra). 
+Initial classes for Publication and its children [@john-guerra](https://github.com/john-guerra). 
