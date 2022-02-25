@@ -136,7 +136,11 @@ class PublicationManager {
 
 const pubManager = new PublicationManager();
 
-
+pubManager.addPaper("Navio", "John Guerra","doi999", 2018, "TVCG", 18);
+pubManager.addBook("Scrum", "David", "ISBN999", 2005, "Elsevier");
+pubManager.addWebpage("Homepage", "NEU", "2022","https://www.khoury.northeastern.edu/",20220224)
+console.log(pubManager.printCitations("APA"))
+console.log(pubManager.printCitations("MLA"))
 
 /**
  * TitleStatistics is supposed to work as a class to gather titles and count the number of A's in all of the titles.
