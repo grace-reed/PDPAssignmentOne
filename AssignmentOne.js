@@ -7,7 +7,9 @@ class Publication {
   year = new Date().getYear();
   constructor(title, author, year) {
     if (!title || !author || !year) {
-      throw new Error("I need an author, title and year to create a publication");
+      throw new Error(
+        "I need an author, title and year to create a publication"
+      );
     }
     this.title = title;
     this.author = author;
@@ -27,7 +29,7 @@ class Publication {
  */
 class Book extends Publication {
   publisher;
-  constructor(title, author,ISBN, year, publisher) {
+  constructor(title, author, ISBN, year, publisher) {
     if (!publisher) {
       throw new Error("I need a publisher to create a book");
     }
@@ -94,9 +96,7 @@ class Webpage extends Publication {
   }
   isWebpage() {
     return (
-      this.isWebpage() && 
-      this.URL !== undefined && 
-      this.date !== undefined
+      this.isWebpage() && this.URL !== undefined && this.date !== undefined
     );
   }
   citeAPA() {
@@ -132,15 +132,24 @@ class PublicationManager {
       else console.log(pub.citeMLA());
     }
   }
+  getAllPublication() {
+    return this.publications;
+  }
 }
 
 const pubManager = new PublicationManager();
 
-pubManager.addPaper("Navio", "John Guerra","doi999", 2018, "TVCG", 18);
+pubManager.addPaper("Navio", "John Guerra", "doi999", 2018, "TVCG", 18);
 pubManager.addBook("Scrum", "David", "ISBN999", 2005, "Elsevier");
-pubManager.addWebpage("Homepage", "NEU", "2022","https://www.khoury.northeastern.edu/",20220224)
-console.log(pubManager.printCitations("APA"))
-console.log(pubManager.printCitations("MLA"))
+pubManager.addWebpage(
+  "Homepage",
+  "NEU",
+  "2022",
+  "https://www.khoury.northeastern.edu/",
+  20220224
+);
+console.log(pubManager.printCitations("APA"));
+console.log(pubManager.printCitations("MLA"));
 
 /**
  * TitleStatistics is supposed to work as a class to gather titles and count the number of A's in all of the titles.
@@ -148,17 +157,34 @@ console.log(pubManager.printCitations("MLA"))
  */
 class TitlesStatistics {
   titles = [];
-  getTitles(value) {
-    titles.push(value.title);
+
+  // getTitles(value) {
+  //   this.titles.push(value.title);
+  // }
+
+  // populateTitlesArray(){
+  //   pubManager.publications.forEach(getTitles);
+  // }
+
+  populateTitlesArray(allPubs) {
+    allPubs.forEach((pub) => {
+      this.titles.push(pub.title);
+    });
   }
-  populateTitlesArray(){
-    pubManager.publications.forEach(getTitles);
-  } 
-  countLetters(titles) {
-    var text = value.join("").replace(/\s/g, "");
-    var a = char_count(text, "a") / text.length;
-    console.log("Percent of a's in all publication titles combined: " + a);
+
+  countLetters(value) {
+    var text = value.replace(/\s/g, "");
+    var a = this.char_count(text, "a") / text.length;
+    return a;
   }
+  countLettersAllTitles() {
+    let sum = 0;
+    this.titles.forEach((t) => {
+      sum += this.countLetters(t);
+    });
+    console.log("Percent of a's in all publication titles combined: " + sum);
+  }
+
   char_count(str, letter) {
     var letter_Count = 0;
     for (var position = 0; position < str.length; position++) {
@@ -171,6 +197,8 @@ class TitlesStatistics {
 }
 
 const titlesStatistics = new TitlesStatistics();
-pubManager.publications.forEach(getTitles);
-countLetters(titles);
+titlesStatistics.populateTitlesArray(pubManager.getAllPublication());
+titlesStatistics.countLettersAllTitles();
 
+//pubManager.publications.forEach(getTitles);
+//countLetters(titles);
